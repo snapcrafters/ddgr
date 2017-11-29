@@ -1,5 +1,6 @@
 name: ddgr
 version: '1.1'
+version-script: cat $SNAPCRAFT_STAGE/version
 summary: DuckDuckGo from the terminal
 description: |
   ddgr is a cmdline utility to search DuckDuckGo from the terminal. While 
@@ -28,7 +29,9 @@ parts:
   ddgr:
     plugin: make
     source: https://github.com/jarun/ddgr.git
-    source-tag: 'v1.1'
+    install: |
+      echo daily-$(git rev-parse --short HEAD) > $SNAPCRAFT_STAGE/version
+      make install
     stage-packages:
       - python3
       - python3-requests
