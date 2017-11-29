@@ -1,0 +1,34 @@
+name: ddgr
+version: '1.1'
+summary: DuckDuckGo from the terminal
+description: |
+  ddgr is a cmdline utility to search DuckDuckGo from the terminal. While 
+  googler is highly popular among cmdline users, in many forums the need 
+  of a similar utility for privacy-aware DuckDuckGo came up. DuckDuckGo 
+  Bangs are super-cool too! So here's ddgr for you!
+  Unlike the web interface, you can specify the number of search results 
+  you would like to see per page. It's more convenient than skimming through 
+  30-odd search results per page. The default interface is carefully designed 
+  to use minimum space without sacrificing readability.
+  ddgr isn't affiliated to DuckDuckGo in any way..
+
+grade: stable
+confinement: strict
+
+apps:
+  ddgr:
+    environment:
+      LC_ALL: "C.UTF-8"
+    command: usr/local/bin/ddgr
+    plugs:
+      - network
+      - desktop
+
+parts:
+  ddgr:
+    plugin: make
+    source: https://github.com/jarun/ddgr.git
+    source-tag: 'v1.1'
+    stage-packages:
+      - python3
+      - python3-requests
