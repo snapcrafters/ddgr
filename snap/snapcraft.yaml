@@ -29,7 +29,6 @@ parts:
   ddgr:
     plugin: make
     source: https://github.com/jarun/ddgr.git
-    source-tag: 'v1.2'
     prepare: |
       last_committed_tag="$(git describe --tags --abbrev=0)"
       last_released_tag="$(snap info ddgr | awk '$1 == "beta:" { print $2 }')"
