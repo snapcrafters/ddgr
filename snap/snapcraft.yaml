@@ -1,6 +1,6 @@
 name: ddgr
 version:version: stable
-version-script: git -C parts/ddgr/build describe --tags
+version-script: git -C parts/ddgr/build describe --dirty | sed "s/v//g"
 summary: DuckDuckGo from the terminal
 description: |
   ddgr is a cmdline utility to search DuckDuckGo from the terminal. While 
@@ -29,16 +29,16 @@ parts:
   ddgr:
     plugin: make
     source: https://github.com/jarun/ddgr.git
-    source-tag: 'v1.4'
- #   prepare: |
- #     last_committed_tag="$(git describe --tags --abbrev=0)"
- #     last_released_tag="$(snap info ddgr | awk '$1 == "beta:" { print $2 }')"
- #     # If the latest tag from the upstream project has not been released to
- #     # beta, build that tag instead of master.
- #     if [ "${last_committed_tag}" != "${last_released_tag}" ]; then
- #       git fetch
- #       git checkout "${last_committed_tag}"
- #     fi
+#    source-tag: 'v1.4'
+    prepare: |
+      last_committed_tag="$(git describe --tags --abbrev=0)"
+      last_released_tag="$(snap info ddgr | awk '$1 == "beta:" { print $2 }')"
+      # If the latest tag from the upstream project has not been released to
+      # beta, build that tag instead of master.
+      if [ "${last_committed_tag}" != "${last_released_tag}" ]; then
+        git fetch
+        git checkout "${last_committed_tag}"
+      fi
     install: |
       make install
     stage-packages:
