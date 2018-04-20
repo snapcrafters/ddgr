@@ -1,5 +1,5 @@
 name: ddgr
-version:version: stable
+version: stable
 version-script: git -C parts/ddgr/build describe --dirty | sed "s/v//g"
 summary: DuckDuckGo from the terminal
 description: |
