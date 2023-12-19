@@ -21,7 +21,7 @@ issues: https://github.com/snapcrafters/ddgr/issues
 source-code: https://github.com//snapcrafters/ddgr
 license: MIT
 icon: snap/local/ddg-logo.png
-version: '2.1'
+version: 'v2.1'
 
 base: core22
 grade: stable
@@ -40,59 +40,32 @@ parts:
   ddgr:
     plugin: make
     source: https://github.com/jarun/ddgr.git
-# Commenting this out - should be removed if it doesn't break anything.
-#    override-pull: |
-#      snapcraftctl pull
-#      last_committed_tag="$(git describe --tags --abbrev=0)"
-#      last_released_tag="$(snap info ddgr | awk '$1 == "latest/beta:" { print $2 }')"
-#      # If the latest tag from the upstream project has not been released to
-#      # beta, build that tag instead of master.
-#      if [ "${last_committed_tag}" != "${last_released_tag}" ]; then
-#        git fetch
-#        git checkout "${last_committed_tag}"
-#      fi
-    override-build: |
-      snapcraftctl build
-      # make install
+    source-tag: $SNAPCRAFT_PROJECT_VERSION
     stage-packages:
       - python3
       - python3-requests
     prime:
-      # compilers and debuggers
       - -usr/bin/pdb3*
-      # debhelper
       - -usr/bin/dh_*
       - -usr/share/debhelper
       - -usr/share/dh-python
       - -usr/share/perl5/Debian
-      # docs
       - -usr/share/doc
       - -usr/share/doc-base
-      # lintian
       - -usr/share/lintian/overrides
-      # man pages
       - -usr/share/man
       - -share/man
-      # meta
       - -usr/share/applications
       - -usr/share/pixmaps
-      # python 2to3
       - -usr/bin/2to3*
       - -usr/lib/python*/lib2to3
-      # python idle
       - -usr/lib/python*/idlelib
       - -usr/lib/python*/tkinter
-      # python pip
       - -lib/python*/site-packages/pip
-      # python setuptools
       - -lib/python*/site-packages/setuptools*
-      # python tests
       - -lib/python*/site-packages/tests
-      # python venv
       - -usr/lib/python*/venv
-      # python wheel
       - -lib/python*/site-packages/wheel*
-      # x11
       - -usr/share/X11/XErrorDB
  
   config:
