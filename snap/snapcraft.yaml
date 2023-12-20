@@ -1,5 +1,4 @@
 name: ddgr
-adopt-info: ddgr
 summary: DuckDuckGo from the terminal
 description: |
   ddgr is a cmdline utility to search DuckDuckGo from the terminal. While 
@@ -11,8 +10,20 @@ description: |
   30-odd search results per page. The default interface is carefully designed 
   to use minimum space without sacrificing readability.
   ddgr isn't affiliated to DuckDuckGo in any way..
-base: core22
+  
+  **Authors**
 
+  This snap is maintained by the Snapcrafters community, and is not necessarily endorsed or officially maintained by the upstream developers.  
+
+website: https://github.com/jarun/ddgr
+contact: https://github.com/snapcrafters/ddgr/issues
+issues: https://github.com/snapcrafters/ddgr/issues
+source-code: https://github.com//snapcrafters/ddgr
+license: MIT
+icon: snap/local/ddg-logo.png
+version: 'v2.1'
+
+base: core22
 grade: stable
 confinement: strict
 
@@ -29,57 +40,34 @@ parts:
   ddgr:
     plugin: make
     source: https://github.com/jarun/ddgr.git
-    override-pull: |
-      snapcraftctl pull
-      last_committed_tag="$(git describe --tags --abbrev=0)"
-      last_released_tag="$(snap info ddgr | awk '$1 == "latest/beta:" { print $2 }')"
-      # If the latest tag from the upstream project has not been released to
-      # beta, build that tag instead of master.
-      if [ "${last_committed_tag}" != "${last_released_tag}" ]; then
-        git fetch
-        git checkout "${last_committed_tag}"
-      fi
-    override-build: |
-      snapcraftctl build
-      # make install
-      snapcraftctl set-version "$(git describe --dirty | sed 's/v//g')"
+    source-tag: $SNAPCRAFT_PROJECT_VERSION
     stage-packages:
       - python3
       - python3-requests
     prime:
-      # compilers and debuggers
       - -usr/bin/pdb3*
-      # debhelper
       - -usr/bin/dh_*
       - -usr/share/debhelper
       - -usr/share/dh-python
       - -usr/share/perl5/Debian
-      # docs
       - -usr/share/doc
       - -usr/share/doc-base
-      # lintian
       - -usr/share/lintian/overrides
-      # man pages
       - -usr/share/man
       - -share/man
-      # meta
       - -usr/share/applications
       - -usr/share/pixmaps
-      # python 2to3
       - -usr/bin/2to3*
       - -usr/lib/python*/lib2to3
-      # python idle
       - -usr/lib/python*/idlelib
       - -usr/lib/python*/tkinter
-      # python pip
       - -lib/python*/site-packages/pip
-      # python setuptools
       - -lib/python*/site-packages/setuptools*
-      # python tests
       - -lib/python*/site-packages/tests
-      # python venv
       - -usr/lib/python*/venv
-      # python wheel
       - -lib/python*/site-packages/wheel*
-      # x11
       - -usr/share/X11/XErrorDB
+ 
+  config:
+    plugin: dump
+    source: snap/local      
