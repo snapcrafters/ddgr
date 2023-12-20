@@ -21,7 +21,7 @@ issues: https://github.com/snapcrafters/ddgr/issues
 source-code: https://github.com//snapcrafters/ddgr
 license: MIT
 icon: snap/local/ddg-logo.png
-version: 'v2.1'
+version: '2.1'
 
 base: core22
 grade: stable
