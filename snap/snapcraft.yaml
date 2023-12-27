@@ -45,7 +45,7 @@ parts:
   ddgr:
     plugin: make
     source: https://github.com/jarun/ddgr.git
-    source-tag: $SNAPCRAFT_PROJECT_VERSION
+    source-tag: v$SNAPCRAFT_PROJECT_VERSION
     stage-packages:
       - python3
       - python3-requests
