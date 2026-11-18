@@ -22,8 +22,12 @@ jobs:
         with:
           token: ${{ secrets.SNAPCRAFTERS_BOT_COMMIT }}
           update-script: |
+            set -eu
+
             # Update the snapcraft.yaml to match upstream version
             API="https://api.github.com/repos/jarun/ddgr/releases/latest"
-            VERSION=$(curl -s "${API}" | jq -r .tag_name | sed 's/v//g')
-            sed -i 's/^\(version: \).*$/\1'"'$VERSION'"'/' snap/snapcraft.yaml 
-
+            RELEASE=$(curl --fail --silent --show-error "${API}")
+            TAG=$(printf '%s' "${RELEASE}" |
+              jq -er '.tag_name | select(type == "string" and test("^v?[0-9]+(\\.[0-9]+)+$"))')
+            VERSION=${TAG#v}
+            sed -i 's/^\(version: \).*$/\1'"'$VERSION'"'/' snap/snapcraft.yaml
